@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Burger Street Festival – Trenčín</title>
+
+    <!-- Meta tagy pro PWA a vzhled -->
+    <meta name="theme-color" content="#0D1117">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Burger Info">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTkyIiB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZjMTA3IiBzdHJva2Utd2lkdGg9IjEyIiBzdHJva2UtdGluZWNhcD0icm91bmQiIGQ9Ik0yOCAyOGgxMzZ2MTM2SDI4eiIvPjxwYXRoIGZpbGw9IiNmZmMxMDciIGQ9Ik03MCAxMDZoNTJ2MTJIMzZ2LTEyYTQwIDQwIDAgMCAxIDQwLTQwaDQwYTQwIDQwIDAgMCAxIDQwIDQwdjEySDk0djEyem0yMy01MmMtMTQgMC0xOC0xMi0xOC0xMiAxMiAwIDE4IDEyIDE4IDEyeiIvPjwvc3ZnPg==">
+
+    <!-- Knihovny pro design a animace -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+    <!-- Písma -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700;900&family=Roboto+Mono:wght@500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Dynamicky generovaný manifest bude vložen sem -->
+
+    <style>
+        :root {
+            --bg-dark: #0D1117;
+            --accent-1: #22d3ee;
+            --accent-1-rgb: 34, 211, 238;
+            --accent-2: #a855f7;
+            --accent-2-rgb: 168, 85, 247;
+            --text-primary: #e6edf3;
+            --text-secondary: #94a3b8;
+            --danger-color: #f43f5e;
+            --success-color: #34d399;
+            --card-bg-start: rgba(22, 27, 34, 0.65);
+            --card-bg-end: rgba(22, 27, 34, 0.55);
+            --border-color: rgba(138, 148, 158, 0.2);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
+            100% { transform: translateY(0px); }
+        }
+
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 10%, var(--accent-1), transparent 25%),
+                radial-gradient(circle at 90% 85%, var(--accent-2), transparent 25%);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, var(--card-bg-start), var(--card-bg-end));
+            backdrop-filter: blur(10px) saturate(180%);
+            -webkit-backdrop-filter: blur(10px) saturate(180%);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+            
+            /* Multi-layer shadows for depth */
+            box-shadow: 
+                inset 0 1px 1px rgba(255, 255, 255, 0.05),
+                0 8px 32px rgba(0,0,0,0.12), 
+                0 2px 16px rgba(0,0,0,0.08);
+
+            /* Initial state for animation */
+            animation: float 6s ease-in-out infinite;
+            transform: perspective(1200px); /* Prepare for 3D transforms */
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-content { padding: 1.5rem; }
+
+        .card:hover {
+            opacity: 1;
+            transform: perspective(1200px) scale(1.02) rotateY(1deg) rotateX(2deg);
+            animation-play-state: paused;
+            box-shadow: 
+                inset 0 1px 1px rgba(255, 255, 255, 0.1),
+                0 0 20px rgba(var(--accent-1-rgb), 0.1),
+                0 0 40px rgba(var(--accent-2-rgb), 0.1),
+                0 16px 40px rgba(0,0,0,0.2);
+        }
+
+        header.card {
+            /* Header card has a slightly different animation */
+            animation-delay: -3s;
+        }
+
+        header h1 {
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 900;
+            background: -webkit-linear-gradient(45deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .card h2 {
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+        
+        ul { list-style: none; }
+        li {
+            margin-bottom: 0.75rem; padding-left: 2rem;
+            position: relative;
+        }
+        li::before {
+            content: '🍔'; position: absolute; left: 0; top: -2px;
+            font-size: 1.2rem; filter: saturate(1.2);
+        }
+        
+        .highlight-date {
+            background-image: linear-gradient(45deg, var(--accent-1), var(--accent-2));
+            color: #000; padding: 0.2rem 0.6rem; border-radius: 6px;
+            font-weight: 700;
+        }
+
+        .warning { color: var(--danger-color); font-weight: 700; }
+        
+        .btn {
+            display: block; width: 100%; padding: 1rem;
+            text-align: center; font-weight: 700; font-size: 1.1rem;
+            border-radius: 12px; text-decoration: none; border: none; cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background-image: linear-gradient(45deg, var(--accent-1), var(--accent-2));
+            color: #0D1117;
+            box-shadow: 0 4px 20px rgba(var(--accent-2-rgb), 0.3);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            box-shadow: none;
+            background-image: none;
+        }
+        .btn:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 6px 25px rgba(var(--accent-2-rgb), 0.4); }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--accent-1); }
+        .btn:active { transform: scale(0.98); }
+
+        /* Collapsible cards */
+        details > summary { list-style: none; cursor: pointer; }
+        details > summary::-webkit-details-marker { display: none; }
+        .summary-chevron { transition: transform 0.2s ease-in-out; }
+        details[open] .summary-chevron { transform: rotate(90deg); }
+        .details-content {
+            padding: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 1rem;
+        }
+        .icon-bg {
+            padding: 0.75rem; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        
+        /* Countdown */
+        .countdown-box {
+            font-family: 'Roboto Mono', monospace; font-weight: 500;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            padding: 0.75rem 1rem; border-radius: 12px;
+            font-size: 1.5rem; line-height: 1;
+        }
+
+        /* Checklist */
+        .checklist-item {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.5rem 0; cursor: pointer; 
+        }
+        .checklist-item input[type="checkbox"] {
+            width: 1.5em; height: 1.5em; accent-color: var(--success-color);
+            cursor: pointer; flex-shrink: 0;
+        }
+        .checklist-item label { flex: 1; cursor: pointer; }
+        .checklist-item input[type="checkbox"]:checked + label {
+            text-decoration: line-through; color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container max-w-2xl mx-auto p-4">
+        <header class="text-center mb-6 py-4 card">
+            <div class="logo text-4xl mb-2">🍔</div>
+            <h1 class="text-3xl md:text-4xl">Burger Festival Pokyny</h1>
+            <p class="text-lg text-slate-400 font-semibold">Trenčín, 5.–7. 9. 2025</p>
+        </header>
+
+        <main id="card-container">
+            <!-- Countdown -->
+            <section class="card text-center card-content">
+                <h2 class="text-md font-bold text-slate-400 mb-4 tracking-widest uppercase">Start za</h2>
+                <div id="countdown" class="flex justify-center items-center space-x-2 sm:space-x-3 text-white">
+                    <div><span id="days" class="countdown-box">00</span><span class="text-xs text-slate-500 block mt-2">DNÍ</span></div>
+                    <div><span id="hours" class="countdown-box">00</span><span class="text-xs text-slate-500 block mt-2">HOD</span></div>
+                    <div><span id="minutes" class="countdown-box">00</span><span class="text-xs text-slate-500 block mt-2">MIN</span></div>
+                    <div><span id="seconds" class="countdown-box">00</span><span class="text-xs text-slate-500 block mt-2">SEK</span></div>
+                </div>
+            </section>
+            
+            <!-- Všechny karty jako <details> -->
+            <details class="card">
+                <summary class="p-5 flex justify-between items-center"><div class="flex items-center gap-4"><div class="icon-bg" style="background-color: rgba(var(--accent-1-rgb), 0.1);"><svg class="h-7 w-7 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div><div><h2 class="text-xl">Navigace</h2><p class="text-slate-400 text-sm">Cílové destinace</p></div></div><svg class="h-6 w-6 text-slate-500 summary-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" /></svg></summary>
+                <div class="details-content space-y-4"><a href="https://www.google.com/maps/dir/?api=1&destination=OC+Laugaricio, Belá, Trenčín" target="_blank" class="btn">Navigovat na Festival</a><a href="https://www.google.com/maps/dir/?api=1&destination=Cozy+Stay+Apartment,Trenčín" target="_blank" class="btn btn-secondary">Navigovat na Ubytování</a></div>
+            </details>
+
+            <details class="card" open>
+                <summary class="p-5 flex justify-between items-center"><div class="flex items-center gap-4"><div class="icon-bg" style="background-color: rgba(52, 211, 153, 0.1);"><svg class="h-7 w-7 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div><div><h2 class="text-xl">Přípravný Checklist</h2><p class="text-slate-400 text-sm">Povinné body k odškrtnutí</p></div></div><svg class="h-6 w-6 text-slate-500 summary-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" /></svg></summary>
+                <div class="details-content"><div class="checklist-item"><input type="checkbox" id="check-cover"><label for="check-cover">Igelit a koberec (přesah 50 cm)</label></div><div class="checklist-item"><input type="checkbox" id="check-card"><label for="check-card">Vjezdová karta za sklem</label></div><div class="checklist-item"><input type="checkbox" id="check-contact"><label for="check-contact">Kontaktovat p. Vládka po příjezdu</label></div><div class="checklist-item"><input type="checkbox" id="check-supplies"><label for="check-supplies">Čerstvé zásoby (zákaz polotovarů)</label></div><div class="checklist-item"><input type="checkbox" id="check-rules"><label for="check-rules">Dodržena pravidla pro burger</label></div></div>
+            </details>
+
+            <details class="card">
+                <summary class="p-5 flex justify-between items-center"><div class="flex items-center gap-4"><div class="icon-bg" style="background-color: rgba(251, 191, 36, 0.1);"><svg class="h-7 w-7 text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div><div><h2 class="text-xl">Důležité informace</h2><p class="text-slate-400 text-sm">Termíny, časy, pravidla...</p></div></div><svg class="h-6 w-6 text-slate-500 summary-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" /></svg></summary>
+                <div class="details-content"><ul><li><strong>Termín:</strong> <span class="highlight-date">5.–7. 9. 2025</span> (pá–ne)</li><li><strong>Místo:</strong> OC Laugaricio, 7271 Belá, Trenčín</li><li><strong>Příjezd:</strong> ČT <span class="highlight-date">17–19h</span>; PÁ <span class="highlight-date">07–09h</span></li><li><strong>Návozy:</strong> Denně <span class="highlight-date">7:30–9:00</span></li><li><strong>Provoz:</strong> PÁ–NE <span class="highlight-date">10:00–20:00</span></li><li><strong>Burger:</strong> Maso min. <strong>100 g</strong>, houska ≤10 cm, >70 g.</li><li><strong class="warning">Zákaz polotovarů a mraženého masa.</strong></li><li><strong>Odhad:</strong> 500–1200 porcí/festival.</li></ul></div>
+            </details>
+            
+            <details class="card">
+                <summary class="p-5 flex justify-between items-center"><div class="flex items-center gap-4"><div class="icon-bg" style="background-color: rgba(244, 63, 94, 0.1);"><svg class="h-7 w-7 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg></div><div><h2 class="text-xl">Pravidla a Pokuty</h2><p class="text-slate-400 text-sm">Na co si dát pozor</p></div></div><svg class="h-6 w-6 text-slate-500 summary-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" /></svg></summary>
+                <div class="details-content"><ul><li><strong class="warning">Povinně igelit + koberec</strong> pod stánkem (přesah 50 cm).</li><li>Food trucky musí mít koberec u výdeje i výjezdu.</li><li><strong class="warning">Pokuta za ušpinění dlažby: 5 000–10 000 Kč.</strong></li><li><strong class="warning">Odjezd bez předání místa p. Vládkovi = pokuta 5 000 Kč.</strong></li></ul></div>
+            </details>
+
+            <details class="card">
+                <summary class="p-5 flex justify-between items-center"><div class="flex items-center gap-4"><div class="icon-bg" style="background-color: rgba(var(--accent-2-rgb), 0.1);"><svg class="h-7 w-7 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg></div><div><h2 class="text-xl">Ubytování</h2><p class="text-slate-400 text-sm">Cozy Stay Apartment</p></div></div><svg class="h-6 w-6 text-slate-500 summary-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" /></svg></summary>
+                <div class="details-content"><p class="mb-4 text-slate-300">Zajištěno ubytování v <strong>Cozy Stay Apartment</strong>. Níže je odkaz na booking a výše tlačítko pro přímou navigaci.</p><a href="https://www.booking.com/hotel/sk/cozy-stay-apartment.cs.html" target="_blank" class="btn">Zobrazit na Booking.com</a></div>
+            </details>
+
+            <details class="card">
+                <summary class="p-5 flex justify-between items-center"><div class="flex items-center gap-4"><div class="icon-bg" style="background-color: rgba(99, 102, 241, 0.1);"><svg class="h-7 w-7 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg></div><div><h2 class="text-xl">Kontakty</h2><p class="text-slate-400 text-sm">Technika, organizace, elektřina...</p></div></div><svg class="h-6 w-6 text-slate-500 summary-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" /></svg></summary>
+                <div class="details-content"><ul class="space-y-3"><li><strong>Technika (příjezd):</strong> Radim Vládek, <a href="tel:+420722190843" class="text-cyan-300">+420 722 190 843</a></li><li><strong>Elektřina:</strong> Pavel Novotný, <a href="tel:+420702738790" class="text-cyan-300">+420 702 738 790</a></li><li><strong>Organizace:</strong> Renata Šupková, <a href="tel:+420777030020" class="text-cyan-300">+420 777 030 020</a></li><li><strong>E-mail:</strong> <a href="mailto:info@burgerfestival.cz" class="text-cyan-300">info@burgerfestival.cz</a></li></ul></div>
+            </details>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- PWA Setup ---
+            const createManifest = () => {
+                const manifest = {
+                    "name": "Burger Festival Pokyny", "short_name": "Burger Info", "start_url": ".",
+                    "display": "standalone", "background_color": "#0D1117", "theme_color": "#0D1117",
+                    "description": "Informace pro prodejce na Burger Street Festivalu v Trenčíně.",
+                    "icons": [{"src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTkyIiB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZjMTA3IiBzdHJva2Utd2lkdGg9IjEyIiBzdHJva2UtdGluZWNhcD0icm91bmQiIGQ9Ik0yOCAyOGgxMzZ2MTM2SDI4eiIvPjxwYXRoIGZpbGw9IiNmZmMxMDciIGQ9Ik03MCAxMDZoNTJ2MTJIMzZ2LTEyYTQwIDQwIDAgMCAxIDQwLTQwaDQwYTQwIDQwIDAgMCAxIDQwIDQwdjEySDk0djEyem0yMy01MmMtMTQgMC0xOC0xMi0xOC0xMiAxMiAwIDE4IDEyIDE4IDEyeiIvPjwvc3ZnPg==", "sizes": "192x192", "type": "image/svg+xml"}, {"src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZjMTA3IiBzdHJva2Utd2lkdGg9IjMyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIGQ9Ik00OCA0OGgzODR2Mzg0SDQ4eiIvPjxwYXRoIGZpbGw9IiNmZmMxMDciIGQ9Ik0xNzYgMjg4aDE2MHYzMkgxMTJ2LTMyYTgwIDgwIDAgMCAxIDgwLTgwaDgwYTgwIDgwIDAgMCAxIDgwIDgwdjMySDI2MHYzMnpNMjE2IDE2MGMtNDIgMC01NC0zMi01NC0zMiAzMiAwIDU0IDMyIDU0IDMyeiIvPjwvc3ZnPg==", "sizes": "512x512", "type": "image/svg+xml"}]
+                };
+                const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+                const link = document.createElement('link');
+                link.rel = 'manifest';
+                link.href = URL.createObjectURL(blob);
+                document.head.appendChild(link);
+            };
+
+            const createServiceWorker = () => {
+                if ('serviceWorker' in navigator) {
+                    const swContent = `
+                        const CACHE_NAME = 'burger-festival-cache-v6';
+                        const urlsToCache = ['./index.html'];
+                        self.addEventListener('install', e => e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(urlsToCache))));
+                        self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));
+                        self.addEventListener('activate', e => {
+                            const cacheWhitelist = [CACHE_NAME];
+                            e.waitUntil(caches.keys().then(names => Promise.all(names.map(name => {
+                                if (cacheWhitelist.indexOf(name) === -1) return caches.delete(name);
+                            }))));
+                        });
+                    `;
+                    const blob = new Blob([swContent], { type: 'application/javascript' });
+                    navigator.serviceWorker.register(URL.createObjectURL(blob))
+                        .then(() => console.log('ServiceWorker registered.'))
+                        .catch(err => console.log('ServiceWorker registration failed: ', err));
+                }
+            };
+            
+            // --- Checklist Logic ---
+            const checklistItems = document.querySelectorAll('.checklist-item input[type="checkbox"]');
+            const storageKey = 'burgerFestivalChecklistState';
+            const saveState = () => {
+                const state = {};
+                checklistItems.forEach(i => { state[i.id] = i.checked; });
+                localStorage.setItem(storageKey, JSON.stringify(state));
+            };
+            const loadState = () => {
+                const savedState = localStorage.getItem(storageKey);
+                if (savedState) {
+                    const state = JSON.parse(savedState);
+                    checklistItems.forEach(i => { if (state[i.id] !== undefined) i.checked = state[i.id]; });
+                }
+            };
+            checklistItems.forEach(i => i.addEventListener('change', saveState));
+
+            // --- Countdown Timer ---
+            const eventDate = new Date('September 5, 2025 10:00:00').getTime();
+            let countdownInterval = null;
+            const updateCountdown = () => {
+                const now = new Date().getTime();
+                const distance = eventDate - now;
+                if (distance < 0) {
+                    if(countdownInterval) clearInterval(countdownInterval);
+                    document.getElementById('countdown').innerHTML = "<span class='text-2xl font-bold text-emerald-400'>FESTIVAL PROBÍHÁ!</span>";
+                    return;
+                }
+                const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((distance % (1000 * 60)) / 1000);
+                document.getElementById('days').innerText = d.toString().padStart(2, '0');
+                document.getElementById('hours').innerText = h.toString().padStart(2, '0');
+                document.getElementById('minutes').innerText = m.toString().padStart(2, '0');
+                document.getElementById('seconds').innerText = s.toString().padStart(2, '0');
+            };
+            countdownInterval = setInterval(updateCountdown, 1000);
+            updateCountdown();
+
+            // --- Intro Animation using Anime.js ---
+            if (typeof anime === 'function') {
+                const cards = document.querySelectorAll('#card-container > *, header.card');
+                anime({
+                    targets: cards,
+                    translateY: [30, 0],
+                    opacity: [0, 0.95],
+                    delay: anime.stagger(100, {start: 200}),
+                    easing: 'easeOutExpo',
+                    duration: 800,
+                });
+            }
+
+            // --- Init ---
+            createManifest();
+            createServiceWorker();
+            loadState();
+        });
+    </script>
+</body>
+</html>
+
+
